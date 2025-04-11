@@ -1,7 +1,7 @@
 # Tetris in Python
 
 ## Repository
-<Link to your project's public GitHub respository>
+https://github.com/JakeTheCake672/ANGM-2305-FInal-.git
 
 ## Description
 I want to make a version of Tetris in Python. I found a barebones 
