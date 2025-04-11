@@ -1,0 +1,3 @@
+To run this version of Tetris you need:
+1. random
+2. pygame
