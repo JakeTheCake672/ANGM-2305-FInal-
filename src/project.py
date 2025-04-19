@@ -34,11 +34,26 @@ class Block:
         self.id = id
         self.cells = {}
         self.cell_size = 30
+        self.row_offset = 0
+        self.column_offset = 0
         self.rotation_state = 0
         self.colors = Colors.get_cell_colors()
 
-    def draw(self, screen):
+    def move(self, rows, columns):
+        self.row_offset += rows
+        self.column_offset += columns
+
+    def get_cell_positions(self):
         tiles = self.cells[self.rotation_state]
+        moved_tiles = []
+        for position in tiles:
+            position = Position(position.row + self.row_offset, position.column + self.column_offset)
+            moved_tiles.append(position)
+        return moved_tiles
+        
+
+    def draw(self, screen):
+        tiles = self.get_cell_positions()
         for tile in tiles:
             tile_rect = pygame.Rect(tile.column*self.cell_size +1, tile.row*self.cell_size +1, 
                                     self.cell_size -1, self.cell_size -1)
@@ -58,7 +73,7 @@ class LBlock(Block):
 			2: [Position(1, 0), Position(1, 1), Position(1, 2), Position(2, 0)],
 			3: [Position(0, 0), Position(0, 1), Position(1, 1), Position(2, 1)]
 		}
-		
+		self.move(0,3)
 
 class JBlock(Block):
     def __init__(self):
@@ -69,7 +84,7 @@ class JBlock(Block):
             2: [Position(1, 0), Position(1, 1), Position(1, 2), Position(2, 2)],
             3: [Position(0, 1), Position(1, 1), Position(2, 0), Position(2, 1)]
         }
-        
+        self.move(0,3)
 
 class IBlock(Block):
     def __init__(self):
@@ -80,7 +95,7 @@ class IBlock(Block):
             2: [Position(2, 0), Position(2, 1), Position(2, 2), Position(2, 3)],
             3: [Position(0, 1), Position(1, 1), Position(2, 1), Position(3, 1)]
         }
-        
+        self.move(-1, 3)
 
 class OBlock(Block):
     def __init__(self):
@@ -88,7 +103,7 @@ class OBlock(Block):
         self.cells = {
             0: [Position(0, 0), Position(0, 1), Position(1, 0), Position(1, 1)]
         }
-        
+        self.move(0,4)
 
 class SBlock(Block):
     def __init__(self):
@@ -99,7 +114,7 @@ class SBlock(Block):
             2: [Position(1, 1), Position(1, 2), Position(2, 0), Position(2, 1)],
             3: [Position(0, 0), Position(1, 0), Position(1, 1), Position(2, 1)]
         }
-        
+        self.move(0,3)
 
 class TBlock(Block):
     def __init__(self):
@@ -110,7 +125,7 @@ class TBlock(Block):
             2: [Position(1, 0), Position(1, 1), Position(1, 2), Position(2, 1)],
             3: [Position(0, 1), Position(1, 0), Position(1, 1), Position(2, 1)]
         }
-        
+        self.move(0,3)
 
 class ZBlock(Block):
     def __init__(self):
@@ -121,7 +136,7 @@ class ZBlock(Block):
             2: [Position(1, 0), Position(1, 1), Position(2, 1), Position(2, 2)],
             3: [Position(0, 1), Position(1, 0), Position(1, 1), Position(2, 0)]
         }
-        
+        self.move(0,3)
         
 
 class Colors:
@@ -149,6 +164,8 @@ def main():
     game_grid = Grid()
 
     block = LBlock()
+    block.move(4,3)
+
 
     game_grid.print_grid()
     game_running = True
