@@ -7,12 +7,15 @@ class Grid:
         self.num_rows = 20
         self.num_cols = 10
         self.cell_size = 30
-        self.grid = [[0 for j in range(self.num_cols) for i in range(self.num_rows)]]
+        self.grid = [[0 for j in range(self.num_cols)] for i in range(self.num_rows)]
 
     def print_grid(self):
-        for row in range()
+        for row in range(self.num_rows):
+            for column in range(self.num_cols):
+                print(self.grid[row][column], end = " ")
+            print()
 
-        
+
 def main():
     pygame.init()
     #colors
@@ -22,6 +25,8 @@ def main():
     pygame.display.set_caption("Pytris")
 
     clock = pygame.time.Clock()
+    game_grid = Grid()
+    game_grid.print_grid()
     game_running = True
     while game_running == True:
         for event in pygame.event.get():
