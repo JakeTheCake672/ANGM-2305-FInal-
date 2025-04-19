@@ -198,6 +198,9 @@ class Colors:
     purple = (166,0,247)
     cyan = (21,204,209)
     blue = (13,64,216)
+    white = (255,255,255)
+    dark_blue = (44,44,127)
+    light_blue = (59,85,162)
 
     @classmethod
     def get_cell_colors(cls):
@@ -277,8 +280,12 @@ class Game:
 
 def main():
     pygame.init()
-    #colors
-    dark_blue = (44,44,127)
+    
+    title_font = pygame.font.Font(None, 40)
+    score_surface = title_font.render("Score", True, Colors.white)
+
+    score_rect = pygame.Rect(320,55,170,60)
+    
     screen = pygame.display.set_mode((500,620))
 
     pygame.display.set_caption("Pytris")
@@ -314,7 +321,9 @@ def main():
                 game.move_down()
 
         #drawing
-        screen.fill(dark_blue)
+        screen.fill(Colors.dark_blue)
+        screen.blit(score_surface, (365,20,50,50))
+        pygame.draw.rect(screen, Colors.light_blue, score_rect, 0, 10)
         game_grid.draw(screen)
         game.draw(screen)
         
