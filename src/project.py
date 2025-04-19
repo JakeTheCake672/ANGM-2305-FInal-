@@ -3,6 +3,7 @@ import random
 #tutorial im following
 #https://www.youtube.com/watch?v=nF_crEtmpBo&t=1s
 #link to a github repository from the video in case I mess up so bad I need a back up
+#note that I made all my classes in one python file instead of multiple
 #https://github.com/educ8s/Python-Tetris-Game-Pygame.git
 
 
@@ -29,16 +30,20 @@ class Grid:
                 pygame.draw.rect(screen, self.colors[cell_value], cell_rect)
 
 class Block:
-    def __init__(self):
+    def __init__(self, id):
         self.id = id
         self.cells = {}
         self.cell_size = 30
         self.rotation_state = 0
-        self.colors - Colors.get_cell_colors()
+        self.colors = Colors.get_cell_colors()
 
     def draw(self, screen):
         tiles = self.cells[self.rotation_state]
-        
+        for tile in tiles:
+            tile_rect = pygame.Rect(tile.column*self.cell_size +1, tile.row*self.cell_size +1, 
+                                    self.cell_size -1, self.cell_size -1)
+            pygame.draw.rect(screen, self.colors[self.id], tile_rect)
+
 class Position:
     def __init__(self, row, column):
         self.row = row
@@ -53,70 +58,9 @@ class LBlock(Block):
 			2: [Position(1, 0), Position(1, 1), Position(1, 2), Position(2, 0)],
 			3: [Position(0, 0), Position(0, 1), Position(1, 1), Position(2, 1)]
 		}
-		self.move(0, 3)
+		
 
-class JBlock(Block):
-    def __init__(self):
-        super().__init__(id = 2)
-        self.cells = {
-            0: [Position(0, 0), Position(1, 0), Position(1, 1), Position(1, 2)],
-            1: [Position(0, 1), Position(0, 2), Position(1, 1), Position(2, 1)],
-            2: [Position(1, 0), Position(1, 1), Position(1, 2), Position(2, 2)],
-            3: [Position(0, 1), Position(1, 1), Position(2, 0), Position(2, 1)]
-        }
-        self.move(0, 3)
 
-class IBlock(Block):
-    def __init__(self):
-        super().__init__(id = 3)
-        self.cells = {
-            0: [Position(1, 0), Position(1, 1), Position(1, 2), Position(1, 3)],
-            1: [Position(0, 2), Position(1, 2), Position(2, 2), Position(3, 2)],
-            2: [Position(2, 0), Position(2, 1), Position(2, 2), Position(2, 3)],
-            3: [Position(0, 1), Position(1, 1), Position(2, 1), Position(3, 1)]
-        }
-        self.move(-1, 3)
-
-class OBlock(Block):
-    def __init__(self):
-        super().__init__(id = 4)
-        self.cells = {
-            0: [Position(0, 0), Position(0, 1), Position(1, 0), Position(1, 1)]
-        }
-        self.move(0, 4)
-
-class SBlock(Block):
-    def __init__(self):
-        super().__init__(id = 5)
-        self.cells = {
-            0: [Position(0, 1), Position(0, 2), Position(1, 0), Position(1, 1)],
-            1: [Position(0, 1), Position(1, 1), Position(1, 2), Position(2, 2)],
-            2: [Position(1, 1), Position(1, 2), Position(2, 0), Position(2, 1)],
-            3: [Position(0, 0), Position(1, 0), Position(1, 1), Position(2, 1)]
-        }
-        self.move(0, 3)
-
-class TBlock(Block):
-    def __init__(self):
-        super().__init__(id = 6)
-        self.cells = {
-            0: [Position(0, 1), Position(1, 0), Position(1, 1), Position(1, 2)],
-            1: [Position(0, 1), Position(1, 1), Position(1, 2), Position(2, 1)],
-            2: [Position(1, 0), Position(1, 1), Position(1, 2), Position(2, 1)],
-            3: [Position(0, 1), Position(1, 0), Position(1, 1), Position(2, 1)]
-        }
-        self.move(0, 3)
-
-class ZBlock(Block):
-    def __init__(self):
-        super().__init__(id = 7)
-        self.cells = {
-            0: [Position(0, 0), Position(0, 1), Position(1, 1), Position(1, 2)],
-            1: [Position(0, 2), Position(1, 1), Position(1, 2), Position(2, 1)],
-            2: [Position(1, 0), Position(1, 1), Position(2, 1), Position(2, 2)],
-            3: [Position(0, 1), Position(1, 0), Position(1, 1), Position(2, 0)]
-        }
-        self.move(0, 3)
         
 
 class Colors:
@@ -143,9 +87,7 @@ def main():
     clock = pygame.time.Clock()
     game_grid = Grid()
 
-    game_grid.grid[0][0] = 1
-    game_grid.grid[3][5] = 4
-    game_grid.grid[17][8] = 7
+    block = LBlock()
 
     game_grid.print_grid()
     game_running = True
@@ -157,6 +99,9 @@ def main():
         #drawing
         screen.fill(dark_blue)
         game_grid.draw(screen)
+        block.draw(screen)
+
+
         pygame.display.update()
         clock.tick(60)
 if __name__ == "__main__":
