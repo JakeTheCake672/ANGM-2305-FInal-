@@ -65,6 +65,11 @@ class Grid:
                 self.move_row_down(row, completed)
         return completed
 
+    def reset(self):
+        for row in range(self.num_rows):
+            for column in range(self.num_cols):
+                self.grid[row][column] = 0
+
 class Block:
     def __init__(self, id):
         self.id = id
@@ -204,6 +209,7 @@ class Game:
         self.blocks = [IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock()]
         self.current_block = self.get_random_block()
         self.next_block = self.get_random_block()
+        self.game_over = False
 
 
     def get_random_block(self):
@@ -241,6 +247,14 @@ class Game:
         self.next_block = self.get_random_block()
         self.grid.clear_full_rows()
         if self.block_fits() == False:
+            self.game_over = True
+
+    def reset(self):
+        self.grid.reset()
+        self.blocks = [IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock()]
+        self.current_block = self.get_random_block()
+        self.next_block = self.get_random_block()
+
 
     def block_fits(self):
         tiles = self.current_block.get_cell_positions()
@@ -285,15 +299,18 @@ def main():
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
+                if game.game_over == True:
+                    game.game_over = False
+                    game.reset()
+                if event.key == pygame.K_LEFT and game.game_over == False:
                     game.move_left()
-                if event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_RIGHT and game.game_over == False:
                     game.move_right()
-                if event.key == pygame.K_DOWN:
+                if event.key == pygame.K_DOWN and game.game_over == False:
                     game.move_down()
-                if event.key == pygame.K_UP:
+                if event.key == pygame.K_UP and game.game_over == False:
                     game.rotate()
-            if event.type == GAME_UPDATE:
+            if event.type == GAME_UPDATE and game.game_over == False:
                 game.move_down()
 
         #drawing
