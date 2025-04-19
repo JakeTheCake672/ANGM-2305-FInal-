@@ -25,7 +25,7 @@ class Grid:
         for row in range(self.num_rows):
             for column in range(self.num_cols):
                 cell_value = self.grid[row][column]
-                cell_rect = pygame.Rect(column*self.cell_size +1, row*self.cell_size +1, 
+                cell_rect = pygame.Rect(column*self.cell_size +11, row*self.cell_size +11, 
                                         self.cell_size -1, self.cell_size -1)
                 pygame.draw.rect(screen, self.colors[cell_value], cell_rect)
 
@@ -105,7 +105,7 @@ class Block:
     def draw(self, screen):
         tiles = self.get_cell_positions()
         for tile in tiles:
-            tile_rect = pygame.Rect(tile.column*self.cell_size +1, tile.row*self.cell_size +1, 
+            tile_rect = pygame.Rect(tile.column*self.cell_size +11, tile.row*self.cell_size +11, 
                                     self.cell_size -1, self.cell_size -1)
             pygame.draw.rect(screen, self.colors[self.id], tile_rect)
 
@@ -279,7 +279,7 @@ def main():
     pygame.init()
     #colors
     dark_blue = (44,44,127)
-    screen = pygame.display.set_mode((300,600))
+    screen = pygame.display.set_mode((500,620))
 
     pygame.display.set_caption("Pytris")
 
