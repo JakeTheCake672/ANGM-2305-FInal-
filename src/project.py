@@ -198,7 +198,7 @@ class Game:
         for tile in tiles:
             if self.grid.is_inside(tile.row, tile.column) == False:
                 return False
-            return True
+        return True
 
 def main():
     pygame.init()
