@@ -168,6 +168,19 @@ class Game:
         self.blocks.remove(block)
         return block
     
+    def draw(self, screen):
+        self.grid.draw(screen)
+        self.current_block.draw(screen)
+
+    def move_left(self):
+        self.current_block.move(0,-1)
+
+    def move_right(self):
+        self.current_block.move(0,1)
+
+    def move_down(self):
+        self.current_block.move(1,0)
+
 def main():
     pygame.init()
     #colors
@@ -179,7 +192,7 @@ def main():
     clock = pygame.time.Clock()
     game_grid = Grid()
 
-    block = LBlock()
+    game = Game()
     
 
 
@@ -190,10 +203,19 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    game.move_left()
+                if event.key == pygame.K_RIGHT:
+                    game.move_right()
+                if event.key == pygame.K_DOWN:
+                    game.move_down()
+                
+            
         #drawing
         screen.fill(dark_blue)
         game_grid.draw(screen)
-        block.draw(screen)
+        game.draw(screen)
 
 
         pygame.display.update()
