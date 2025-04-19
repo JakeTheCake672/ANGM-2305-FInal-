@@ -105,8 +105,8 @@ class Block:
     def draw(self, screen, offset_x, offset_y):
         tiles = self.get_cell_positions()
         for tile in tiles:
-            tile_rect = pygame.Rect(tile.column*self.cell_size +11, tile.row*self.cell_size +11, 
-                                    self.cell_size -1, self.cell_size -1)
+            tile_rect = pygame.Rect(offset_x + tile.column * self.cell_size, 
+				offset_y + tile.row * self.cell_size, self.cell_size -1, self.cell_size -1)
             pygame.draw.rect(screen, self.colors[self.id], tile_rect)
 
 class Position:
@@ -236,7 +236,13 @@ class Game:
     
     def draw(self, screen):
         self.grid.draw(screen)
-        self.current_block.draw(screen)
+        self.current_block.draw(screen, 11, 11)
+        if self.next_block.id == 3:
+            self.next_block.draw(screen,255,290)
+        elif self.next_block.id == 4:
+            self.next_block.draw(screen,255,280)
+        else:
+            self.next_block.draw(screen, 270, 270)
 
     def move_left(self):
         self.current_block.move(0,-1)
