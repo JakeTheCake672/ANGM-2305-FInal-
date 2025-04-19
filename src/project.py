@@ -152,6 +152,22 @@ class Colors:
     @classmethod
     def get_cell_colors(cls):
         return [cls.dark_grey, cls.green, cls.red, cls.orange, cls.yellow, cls.purple, cls.cyan, cls.blue]
+    
+class Game:
+    def __init__(self):
+        self.grid = Grid()
+        self.blocks = [IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock()]
+        self.current_block = self.get_random_block()
+        self.next_block = self.get_random_block()
+
+
+    def get_random_block(self):
+        if len(self.blocks) == 0:
+            self.blocks = [IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock()]
+        block = random.choice(self.blocks)
+        self.blocks.remove(block)
+        return block
+    
 def main():
     pygame.init()
     #colors
@@ -164,7 +180,7 @@ def main():
     game_grid = Grid()
 
     block = LBlock()
-    block.move(4,3)
+    
 
 
     game_grid.print_grid()
