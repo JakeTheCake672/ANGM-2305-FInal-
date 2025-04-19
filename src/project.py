@@ -55,6 +55,16 @@ class Grid:
             self.grid[row+num_rows][column] = self.grid[row][column]
             self.grid[row][column] = 0
 
+    def clear_full_rows(self):
+        completed = 0
+        for row in range(self.num_rows-1, 0, -1):
+            if self.is_row_full(row):
+               self.clear_row(row)
+               completed += 1
+            elif completed > 0:
+                self.move_row_down(row, completed)
+        return completed
+
 class Block:
     def __init__(self, id):
         self.id = id
@@ -229,6 +239,8 @@ class Game:
             self.grid.grid[position.row][position.column] = self.current_block.id
         self.current_block = self.next_block
         self.next_block = self.get_random_block()
+        self.grid.clear_full_rows()
+        if self.block_fits() == False:
 
     def block_fits(self):
         tiles = self.current_block.get_cell_positions()
