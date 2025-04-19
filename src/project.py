@@ -223,11 +223,9 @@ class Game:
         return True
 
     def rotate(self):
-        tiles = self.current_block.get_cell_positions()
-        for position in tiles:
-            self.grid.grid[position.row][position.column] = self.current_block.id
-        self.current_block = self.next_block
-        self.next_block = self.get_random_block
+        self.current_block.rotate()
+        if self.block_inside() == False or self.block_fits() == False:
+            self.current_block.undo_rotation()
 
     def block_inside(self):
         tiles = self.current_block.get_cell_positions()
