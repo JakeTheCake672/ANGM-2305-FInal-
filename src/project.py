@@ -34,6 +34,11 @@ class Grid:
             return True
         else:
             return False
+    
+    def is_empty(self, row, column):
+        if self.grid[row][column] == 0:
+            return True
+        return False
 
 class Block:
     def __init__(self, id):
@@ -189,23 +194,40 @@ class Game:
 
     def move_left(self):
         self.current_block.move(0,-1)
-        if self.block_inside() == False:
+        if self.block_inside() == False or self.block_fits() == False:
             self.current_block.move(0,1)
 
     def move_right(self):
         self.current_block.move(0,1)
-        if self.block_inside() == False:
+        if self.block_inside() == False or self.block_fits() == False:
             self.current_block.move(0,-1)
 
     def move_down(self):
         self.current_block.move(1,0)
-        if self.block_inside() == False:
+        if self.block_inside() == False or self.block_fits() == False:
             self.current_block.move(-1,0)
+            self.lock_block()
+
+    def lock_block(self):
+        tiles = self.current_block.get_cell_positions()
+        for position in tiles:
+            self.grid.grid[position.row][position.column] = self.current_block.id
+        self.current_block = self.next_block
+        self.next_block = self.get_random_block()
+
+    def block_fits(self):
+        tiles = self.current_block.get_cell_positions()
+        for tile in tiles:
+            if self.grid.is_empty(tile.row, tile.column) == False:
+                return False
+        return True
 
     def rotate(self):
-        self.current_block.rotate()
-        if self.block_inside() == False:
-            self.current_block.undo_rotation()
+        tiles = self.current_block.get_cell_positions()
+        for position in tiles:
+            self.grid.grid[position.row][position.column] = self.current_block.id
+        self.current_block = self.next_block
+        self.next_block = self.get_random_block
 
     def block_inside(self):
         tiles = self.current_block.get_cell_positions()
@@ -227,7 +249,8 @@ def main():
 
     game = Game()
     
-
+    GAME_UPDATE = pygame.USEREVENT
+    pygame.time.set_timer(GAME_UPDATE, 200)
 
     game_grid.print_grid()
     game_running = True
@@ -245,13 +268,14 @@ def main():
                     game.move_down()
                 if event.key == pygame.K_UP:
                     game.rotate()
-                
-            
+            if event.type == GAME_UPDATE:
+                game.move_down()
+
         #drawing
         screen.fill(dark_blue)
         game_grid.draw(screen)
         game.draw(screen)
-
+        
 
         pygame.display.update()
         clock.tick(60)
