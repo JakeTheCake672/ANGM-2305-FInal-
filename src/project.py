@@ -40,6 +40,21 @@ class Grid:
             return True
         return False
 
+    def is_row_full(self, row):
+        for column in range(self.num_cols):
+            if self.grid[row][column] == 0:
+                return False
+        return True
+    
+    def clear_row(self, row):
+        for column in range(self.num_cols):
+            self.grid[row][column] = 0
+
+    def move_row_down(self, row, num_rows):
+        for column in range(self.num_cols):
+            self.grid[row+num_rows][column] = self.grid[row][column]
+            self.grid[row][column] = 0
+
 class Block:
     def __init__(self, id):
         self.id = id
