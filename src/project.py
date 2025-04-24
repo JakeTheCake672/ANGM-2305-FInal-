@@ -224,6 +224,10 @@ class Game:
         self.next_block = self.get_random_block()
         self.game_over = False
         self.score = 0
+        self.rotate_sound = pygame.mixer.Sound("Sounds/rotate.wav")
+        self.clear_sound = pygame.mixer.Sound("Sounds/clang.mp3")
+        pygame.mixer.music.load("Sounds/Monkeys Spinning Monkeys.mp3")
+        pygame.mixer.music.play(-1)
 
     def update_score(self, lines_cleared, move_down_points):
         if lines_cleared == 1:
