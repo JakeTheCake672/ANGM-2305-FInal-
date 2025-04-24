@@ -283,7 +283,9 @@ class Game:
         self.current_block = self.next_block
         self.next_block = self.get_random_block()
         rows_cleared = self.grid.clear_full_rows()
-        self.update_score(rows_cleared, 0)
+        if rows_cleared > 0:
+            self.clear_sound.play()
+            self.update_score(rows_cleared, 0)
         if self.block_fits() == False:
             self.game_over = True
 
@@ -305,6 +307,8 @@ class Game:
         self.current_block.rotate()
         if self.block_inside() == False or self.block_fits() == False:
             self.current_block.undo_rotation()
+        else:
+            self.rotate_sound.play()
 
     def block_inside(self):
         tiles = self.current_block.get_cell_positions()
