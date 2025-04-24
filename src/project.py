@@ -197,6 +197,7 @@ class HBlock (Block):
             2: [Position(0,0), Position(1,0), Position(2,0), Position(1,1), Position(0,2), Position(1,2), Position(2,2)],
             3: [Position(0,0), Position(0,1), Position(0,2), Position(1,1), Position(2,0), Position(2,1), Position(2,2)]
         }
+        self.move(0,3)
 
 class Colors:
     dark_grey = (26,31,40)
@@ -256,7 +257,7 @@ class Game:
         elif self.next_block.id == 4:
             self.next_block.draw(screen,255,280)
         elif self.next_block.id == 8:
-            self.next_block.draw(screen,365,265)
+            self.next_block.draw(screen,270,260)
         else:
             self.next_block.draw(screen,270,270)
 
@@ -283,6 +284,7 @@ class Game:
         self.current_block = self.next_block
         self.next_block = self.get_random_block()
         rows_cleared = self.grid.clear_full_rows()
+        
         if rows_cleared > 0:
             self.clear_sound.play()
             self.update_score(rows_cleared, 0)
