@@ -187,7 +187,16 @@ class ZBlock(Block):
             3: [Position(0, 1), Position(1, 0), Position(1, 1), Position(2, 0)]
         }
         self.move(0,3)
-        
+
+class HBlock (Block):
+    def __init__(self):
+        super().__init__(id = 8)
+        self.cells = {
+            0: [Position(0,0), Position(1,0), Position(2,0), Position(1,1), Position(0,2), Position(1,2), Position(2,2)],
+            1: [Position(0,0), Position(0,1), Position(0,2), Position(1,1), Position(2,0), Position(2,1), Position(2,2)],
+            2: [Position(0,0), Position(1,0), Position(2,0), Position(1,1), Position(0,2), Position(1,2), Position(2,2)],
+            3: [Position(0,0), Position(0,1), Position(0,2), Position(1,1), Position(2,0), Position(2,1), Position(2,2)]
+        }
 
 class Colors:
     dark_grey = (26,31,40)
@@ -201,15 +210,16 @@ class Colors:
     white = (255,255,255)
     dark_blue = (44,44,127)
     light_blue = (59,85,162)
+    black = (0,0,0)
 
     @classmethod
     def get_cell_colors(cls):
-        return [cls.dark_grey, cls.green, cls.red, cls.orange, cls.yellow, cls.purple, cls.cyan, cls.blue]
+        return [cls.dark_grey, cls.green, cls.red, cls.orange, cls.yellow, cls.purple, cls.cyan, cls.blue, cls.black]
     
 class Game:
     def __init__(self):
         self.grid = Grid()
-        self.blocks = [IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock()]
+        self.blocks = [IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock(), HBlock()]
         self.current_block = self.get_random_block()
         self.next_block = self.get_random_block()
         self.game_over = False
@@ -229,20 +239,22 @@ class Game:
 
     def get_random_block(self):
         if len(self.blocks) == 0:
-            self.blocks = [IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock()]
+            self.blocks = [IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock(), HBlock()]
         block = random.choice(self.blocks)
         self.blocks.remove(block)
         return block
     
     def draw(self, screen):
         self.grid.draw(screen)
-        self.current_block.draw(screen, 11, 11)
+        self.current_block.draw(screen,11,11)
         if self.next_block.id == 3:
             self.next_block.draw(screen,255,290)
         elif self.next_block.id == 4:
             self.next_block.draw(screen,255,280)
+        elif self.next_block.id == 8:
+            self.next_block.draw(screen,365,265)
         else:
-            self.next_block.draw(screen, 270, 270)
+            self.next_block.draw(screen,270,270)
 
     def move_left(self):
         self.current_block.move(0,-1)
@@ -273,7 +285,7 @@ class Game:
 
     def reset(self):
         self.grid.reset()
-        self.blocks = [IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock()]
+        self.blocks = [IBlock(), JBlock(), LBlock(), OBlock(), SBlock(), TBlock(), ZBlock(), HBlock()]
         self.current_block = self.get_random_block()
         self.next_block = self.get_random_block()
         self.score = 0
