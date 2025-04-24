@@ -1,7 +1,7 @@
 # PYTHON TETRIS
 
 ## Demo
-Demo Video: <URL>
+Demo Video: https://youtu.be/HfLGbcDt97I
 
 ## GitHub Repository
 GitHub Repo: https://github.com/JakeTheCake672/ANGM-2305-FInal-.git
