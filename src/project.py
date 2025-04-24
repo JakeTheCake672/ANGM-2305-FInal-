@@ -277,6 +277,14 @@ class Game:
             self.current_block.move(-1,0)
             self.lock_block()
 
+    def drop_block(self):
+        while self.block_inside() == True and self.block_fits() == True:
+            self.current_block.move(1,0)
+            if self.block_inside() == False or self.block_fits() == False:
+                self.current_block.move(-1,0)
+                break
+        self.lock_block()
+
     def lock_block(self):
         tiles = self.current_block.get_cell_positions()
         for position in tiles:
@@ -362,6 +370,9 @@ def main():
                     game.update_score(0,1)
                 if event.key == pygame.K_UP and game.game_over == False:
                     game.rotate()
+                if event.key == pygame.K_SPACE and game.game_over == False:
+                    game.drop_block()
+                    game.update_score(0,50)
             if event.type == GAME_UPDATE and game.game_over == False:
                 game.move_down()
 
